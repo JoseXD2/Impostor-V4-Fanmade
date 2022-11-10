@@ -15,6 +15,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.effects.FlxFlicker;
 import flixel.FlxCamera;
+import openfl.events.KeyboardEvent;
 
 using StringTools;
 
@@ -154,51 +155,50 @@ class SusSubState extends MusicBeatSubstate
 		timerTxt.font = Paths.font('metro.otf');
 		add(timerTxt);
 		timerTxt.text = Std.string(timer);
+		
+		#if mobile
+		FlxG.stage.window.textInputEnabled = true;
+		#end
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 	}
 
 
-	function correctLetter() {
-		position++;
-		if (position >= realWord.length) {
-			close();
-			win();
-			FlxG.sound.play(Paths.sound('CORRECT', 'shared'));
+	private function onKeyDown(e:KeyboardEvent):Void
+	{
+		if (e.keyCode == 16 || e.keyCode == 17 || e.keyCode == 220 || e.keyCode == 27) // Do nothing for Shift, Ctrl, Esc, and flixel console hotkey
+			return;
+		else
+		{
+			if (e.charCode == 0) // Non-printable characters crash String.fromCharCode
+				return;
+
+			var daKey:String = String.fromCharCode(e.charCode);
+			if (realWord.charAt(position) == daKey)
+				correctLetter();
+			else
+				FlxG.sound.play(Paths.sound('CORRECT', 'shared'));
 		}
 	}
+
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		
+		timerTxt.text = Std.string(timer);
 
-		for (i in lines) {
-			if (i.ID == position) {
+		for (i in lines)
+		{
+			if (i.ID == position)
+			{
 				FlxFlicker.flicker(i, 1.3, 1, true, false);
-			} else if (i.ID < position) {
+			}
+			else if (i.ID < position)
+			{
 				i.visible = false;
 				i.alpha = 0;
 			}
 		}
-		if (FlxG.keys.justPressed.ANY) {
-			if (realWord.charAt(position) == '?') {
-				if (FlxG.keys.justPressed.SLASH && FlxG.keys.pressed.SHIFT)
-					correctLetter();
-				else if (!FlxG.keys.justPressed.SHIFT)
-					FlxG.sound.play(Paths.sound('BUZZER', 'shared'));
-			} else if (realWord.charAt(position) == '!') {
-				if (FlxG.keys.justPressed.ONE && FlxG.keys.pressed.SHIFT)
-					correctLetter();
-				else if (!FlxG.keys.justPressed.SHIFT)
-					FlxG.sound.play(Paths.sound('BUZZER', 'shared'));
-			} else {
-				if (FlxG.keys.anyJustPressed([FlxKey.fromString(realWord.charAt(position))])) {
-					correctLetter();
-				} else
-					FlxG.sound.play(Paths.sound('BUZZER', 'shared'));
-			}
-		}
-		/*if (FlxG.keys.justPressed.Z) {
-			close();
-			win();
-		}*/
+		
 	}
 
 	override function beatHit()
@@ -214,8 +214,11 @@ class SusSubState extends MusicBeatSubstate
 		timerTxt.text = Std.string(timer);
 	}
 
-	override public function close() {
-		FlxG.autoPause = true;
-		super.close();
+	 override function destroy():Void {
+		#if mobile
+		FlxG.stage.window.textInputEnabled = false;
+		#end
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+		super.destroy();
 	}
 }
