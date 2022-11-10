@@ -163,6 +163,17 @@ class SusSubState extends MusicBeatSubstate
 	}
 
 
+	function correctLetter()
+	{
+		position++;
+		if (position >= realWord.length)
+		{
+			close();
+			win();
+			FlxG.sound.play(Paths.sound('CORRECT'));
+		}
+	}
+
 	private function onKeyDown(e:KeyboardEvent):Void
 	{
 		if (e.keyCode == 16 || e.keyCode == 17 || e.keyCode == 220 || e.keyCode == 27) // Do nothing for Shift, Ctrl, Esc, and flixel console hotkey
