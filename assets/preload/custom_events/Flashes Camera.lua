@@ -1,8 +1,8 @@
 function onEvent(name, value1, value2)
 	if getPropertyFromClass('ClientPrefs', 'flashing') == true then
-		if name == 'Flash' then
+		if name == 'Flashes Camera' then
 			makeLuaSprite('flash', '', 0, 0);
-			makeGraphic('flash',1920,1080,'ff3030')
+			makeGraphic('flash',1920,1080,'ffffff')
 			addLuaSprite('flash', true);
 			setLuaSpriteScrollFactor('flash',0,0)
 			setProperty('flash.scale.x',2)
