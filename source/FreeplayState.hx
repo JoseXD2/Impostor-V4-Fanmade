@@ -992,6 +992,11 @@ class FreeplayState extends MusicBeatState
 		coolthing.updateHitbox();
 		add(coolthing);
 		
+		#if android
+                addVirtualPad(UP_DOWN, A_B_C);
+                #end
+		
+		
 		super.create();
 	}
 
