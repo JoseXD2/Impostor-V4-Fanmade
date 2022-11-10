@@ -131,6 +131,10 @@ add(changelog);
 		explanation.screenCenter();
 		explanation.antialiasing = true;
 		add(explanation);	
+		
+		#if android
+                addVirtualPad(UP_DOWN, A_B);
+                #end
 	}
 
 	override function update(elapsed:Float)
