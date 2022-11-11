@@ -154,8 +154,8 @@ class FpIcon extends FlxSprite
 	public function changeIcon(char:String) {
 		if(this.char != char) {
 			var name:String = 'icons/' + char;
-			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-' + char;
-			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-face';
+			if(!OpenFlAssets.exists('images/' + name + '.png', IMAGE)) name = 'icons/icon-' + char;
+			if(!OpenFlAssets.exists('images/' + name + '.png', IMAGE)) name = 'icons/icon-face';
 			var file:Dynamic = Paths.image(name);
 
 			loadGraphic(file);
