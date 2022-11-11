@@ -993,7 +993,7 @@ class FreeplayState extends MusicBeatState
 		add(coolthing);
 		
 		#if android
-                addVirtualPad(UP_DOWN, A_B_C);
+                addVirtualPad(LEFT_FULL, A_B_C);
                 #end
 		
 		
