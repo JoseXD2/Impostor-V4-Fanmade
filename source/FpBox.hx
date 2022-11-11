@@ -155,7 +155,7 @@ class FpBox extends FlxSprite
 	public function changeBox(box:String) {
 		if(this.box != box) {
 			var name:String = 'freeplay/' + box;
-			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'freeplay/' + box;
+			if(!OpenFlAssets.exists('images/' + name + '.png', IMAGE)) name = 'freeplay/' + box;
 			var file:Dynamic = Paths.image(name);
 
 			loadGraphic(file);
