@@ -46,7 +46,8 @@ class FreeplayState extends MusicBeatState
 	private var grpSongs:FlxTypedGroup<SusFont>;
 	private var curPlaying:Bool = false;
 
-	
+	private var iconArray:Array<FpIcon> = [];
+	private var FpBoxArray:Array<FpBox> = [];
 
 	var bg:FlxSprite;
 	var starFG:FlxBackdrop;
